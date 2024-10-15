@@ -1,9 +1,27 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.playerConfig;
 in
 {
   options.playerConfig = {
+
+    githubLogin = lib.mkOption {
+      type = lib.types.str;
+      description = "The github user/organization to use for the player";
+      default = "garnix-io";
+    };
+
+    githubRepo = lib.mkOption {
+      type = lib.types.str;
+      description = "The github repository to use for the player";
+      default = "nixcon-2024-player-template";
+    };
+
     sshKey = lib.mkOption {
       type = lib.types.str;
       description = "The ssh public key to add to the `me` authorized keys";
@@ -12,6 +30,12 @@ in
     webserver = lib.mkOption {
       type = lib.types.package;
       description = "The webserver package to run";
+    };
+
+    gameServerUrl = lib.mkOption {
+      type = lib.types.str;
+      description = "The url of the game server";
+      default = "https://game-server.main.nixcon-2024-game-server.garnix-io.garnix.me";
     };
   };
 
@@ -24,7 +48,10 @@ in
       environment = {
         PORT = "8080";
       };
-      serviceConfig.DynamicUser = true;
+      serviceConfig = {
+        DynamicUser = true;
+        ExecStartPre = "${lib.getExe pkgs.curl} -v --retry 3 --retry-delay 0 --retry-all-errors --fail -X POST ${cfg.gameServerUrl}/register/${cfg.githubLogin}/${cfg.githubRepo}";
+      };
     };
 
     services.nginx = {

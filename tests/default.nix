@@ -18,13 +18,16 @@
         garnix.server.isVM = true;
 
         playerConfig = {
+          githubLogin = "foo";
+          githubRepo = "bar";
           sshKey = "ssh-ed25519 SOME KEY";
           webserver = pkgs.writeShellScriptBin "webserver" ''
             set -euo pipefail
             ${pkgs.python3}/bin/python -m http.server $PORT
           '';
+          gameServerUrl = "http://localhost";
         };
-
+        services.nginx.virtualHosts.default.locations."/register/foo/bar".return = "200";
       };
     testScript = ''
       player.wait_for_unit("multi-user.target")
