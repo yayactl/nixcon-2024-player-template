@@ -30,7 +30,7 @@
         inherit system;
         modules = [
           garnix-lib.nixosModules.garnix
-          ./module.nix
+          ./nixcon-garnix-player-module.nix
           ({ pkgs, ... }: {
             playerConfig = {
               # Your github user:
