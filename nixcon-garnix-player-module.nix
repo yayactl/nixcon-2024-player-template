@@ -40,7 +40,7 @@ in
 
   config = {
     systemd.services.webserver = {
-      after = [ "network-online.target" ];
+      after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
       description = "The player webserver service";
       script = lib.getExe cfg.webserver;
@@ -49,7 +49,7 @@ in
       };
       serviceConfig = {
         DynamicUser = true;
-        ExecStartPre = "${lib.getExe pkgs.curl} -v --retry 3 --retry-delay 0 --retry-all-errors --fail -X POST ${cfg.gameServerUrl}/register/${cfg.githubLogin}/${cfg.githubRepo}";
+        ExecStartPre = "${lib.getExe pkgs.curl} -v --retry 10 --retry-delay 0 --retry-all-errors --fail -X POST ${cfg.gameServerUrl}/register/${cfg.githubLogin}/${cfg.githubRepo}";
       };
     };
 
