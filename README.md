@@ -5,6 +5,17 @@ This is a template repo for participating in the game. To play you need to:
 - Fork this repo on github.
 - Get a garnix account [here](https://garnix.io).
 - Enable garnix for the forked repo [here](https://github.com/apps/garnix-ci).
+- Push a commit to the `main` branch to trigger a deployment.
+
+## Your game objective
+
+Your mission (if you choose to accept it) is to implement a server that conforms to [this API spec](./spec.md).
+Once you deploy a server from the template above, it should automatically register as a player server with our `game-server`.
+Our game server will regularly run checks against all registered servers.
+You can see the check results -- including error messages -- [here](https://game-server.main.nixcon-2024-game-server.garnix-io.garnix.me/).
+This site also lists every players current score and a leaderboard.
+
+(Hint: You get points every time the server runs a successful check against your player server. And these points accumulate. Choose your strategy accordingly.)
 
 ## Viewing your server requests and responses in logs
 
